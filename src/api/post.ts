@@ -7,10 +7,15 @@ export const createPost = async (
   formData: CreatePostData,
   token: string,
 ): Promise<Post> => {
-  const response = await axios.post<Post>(`${BASE_URL}`, formData, {
+  const response = await axios.post<Post>(BASE_URL, formData, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
+  return response.data;
+};
+
+export const fetchPosts = async (): Promise<Post[]> => {
+  const response = await axios.get<Post[]>(`${BASE_URL}/latest`);
   return response.data;
 };

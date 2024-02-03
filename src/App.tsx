@@ -19,6 +19,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { useUserStore } from "./store/user/UserStore";
 import { fetchUserDetails } from "./api/user";
 import BlogEditor from "./components/Post/BlogEditor";
+import { usePostStore } from "./store/post/PostStore";
+import PostsList from "./components/Post/PostsList";
 
 const darkTheme = createTheme({
   palette: {
@@ -28,6 +30,7 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   const { user, setUser, register, updateProfile, logout } = useUserStore();
+  const { createPost, fetchPosts } = usePostStore();
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -46,6 +49,9 @@ const App: React.FC = () => {
         });
     }
   }, [user, setUser, navigate]);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
@@ -141,7 +147,8 @@ const App: React.FC = () => {
       </Container>
       <Container component="main" sx={{ marginTop: 4 }}>
         <Routes>
-          <Route path="/post" element={<BlogEditor />} />
+          <Route path="/" element={<PostsList />} />
+          <Route path="/post" element={<BlogEditor onSubmit={createPost} />} />
         </Routes>
       </Container>
       <ToastContainer />

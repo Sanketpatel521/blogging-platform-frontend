@@ -4,24 +4,28 @@ import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { validateContent, validateTitel } from "../../utils/validator";
-import { usePostStore } from "../../store/post/PostStore";
 import { useUserStore } from "../../store/user/UserStore";
 import { useNavigate } from "react-router-dom";
+import { CreatePostData } from "../../types/post";
 
 interface BlogEditorProps {
   initialContent?: string;
+  onSubmit: (postData: CreatePostData) => Promise<boolean>;
 }
 
-const BlogEditor: React.FC<BlogEditorProps> = ({ initialContent }) => {
+const BlogEditor: React.FC<BlogEditorProps> = ({
+  initialContent,
+  onSubmit,
+}) => {
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState<{
     title: undefined | string;
     content: undefined | string;
   }>({ title: undefined, content: undefined });
-  const { addPost } = usePostStore();
   const { user } = useUserStore();
   const navigate = useNavigate();
+
   useEffect(() => {
     if (initialContent) {
       const contentState = ContentState.createFromBlockArray(
@@ -58,10 +62,9 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ initialContent }) => {
     const titelError = validateTitel(title);
     const contentError = validateContent(editorState);
     setErrors({ title: titelError, content: contentError });
+
     if (!errors.title && !errors.content) {
-      if (
-        await addPost({ title: title, content: JSON.stringify(contentRaw) })
-      ) {
+      if (await onSubmit({ title, content: JSON.stringify(contentRaw) })) {
         setTitle("");
         setEditorState(EditorState.createEmpty());
       }
@@ -125,7 +128,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ initialContent }) => {
         variant="contained"
         sx={{ mt: 3 }}
       >
-        Create Post
+        {initialContent ? "Update Post" : "Create Post"}
       </Button>
     </Box>
   );

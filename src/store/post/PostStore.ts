@@ -1,17 +1,18 @@
 import { create } from "zustand";
 import { CreatePostData, Post } from "../../types/post";
 import { toast } from "react-toastify";
-import { createPost } from "../../api/post";
+import { createPost, fetchPosts } from "../../api/post";
 import { getErrorMessage } from "../../utils/error";
 
 interface PostStoreState {
   posts: Array<Post>;
-  addPost: (post: CreatePostData) => Promise<boolean>;
+  createPost: (post: CreatePostData) => Promise<boolean>;
+  fetchPosts: () => void;
 }
 
 export const usePostStore = create<PostStoreState>((set) => ({
   posts: [],
-  addPost: async (post) => {
+  createPost: async (post) => {
     try {
       const postData = await createPost(
         post,
@@ -27,6 +28,16 @@ export const usePostStore = create<PostStoreState>((set) => ({
         getErrorMessage(error, "Failed to create post. Please try again."),
       );
       return false;
+    }
+  },
+  fetchPosts: async () => {
+    try {
+      const postData = await fetchPosts();
+      set((state) => ({
+        posts: [...state.posts, ...postData],
+      }));
+    } catch (error: any) {
+      toast.error(getErrorMessage(error, "Failed to fetch post."));
     }
   },
 }));
