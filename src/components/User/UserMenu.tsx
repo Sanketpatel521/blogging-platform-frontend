@@ -1,5 +1,5 @@
-import React from 'react';
-import { Menu, MenuItem, IconButton, Avatar } from '@mui/material';
+import React from "react";
+import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
 
 interface UserMenuProps {
   anchorEl: HTMLButtonElement | null;
@@ -21,12 +21,12 @@ const UserMenu: React.FC<UserMenuProps> = ({
     open={Boolean(anchorEl)}
     onClose={handleClose}
     anchorOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
+      vertical: "top",
+      horizontal: "right",
     }}
     transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
+      vertical: "top",
+      horizontal: "right",
     }}
   >
     <MenuItem onClick={handleProfile}>Update Profile</MenuItem>

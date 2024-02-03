@@ -1,59 +1,67 @@
-import React, { useState } from 'react';
-import { TextField, Button, Typography, Box } from '@mui/material';
-import { useUserStore } from '../../store/user/UserStore';
-import { validateEmail, validatePassword } from '../../common/validator';
-import { Link } from 'react-router-dom';
-import { LoginForm, LoginFormErrors } from '../../types/user';
+import React, { useEffect, useState } from "react";
+import { TextField, Button, Typography, Box } from "@mui/material";
+import { useUserStore } from "../../store/user/UserStore";
+import { validateEmail, validatePassword } from "../../common/validator";
+import { Link, useNavigate } from "react-router-dom";
+import { LoginFormData, LoginFormErrors } from "../../types/user";
 
 const LoginForm: React.FC = () => {
-  const { login } = useUserStore();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { user, login } = useUserStore();
+  const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<LoginFormErrors>({});
+  const navigate = useNavigate();
+  useEffect(() => {
+    // If the user is already logged in, redirect to the home page
+    if (user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value, });
+    setFormData({ ...formData, [name]: value });
 
     const newErrors = { ...errors };
-    if (name === 'email') {
+    if (name === "email") {
       newErrors.email = validateEmail(value);
-    } else if (name === 'password') {
+    } else if (name === "password") {
       newErrors.password = validatePassword(value);
     }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const validationErrors = validateForm(formData);
     setErrors(validationErrors);
-    if (Object.keys(validationErrors).length === 0) {
-      //await login(formData);
+    if (!Object.values(validationErrors).some((error) => error !== undefined)) {
+      await login(formData);
     }
   };
 
-  const validateForm = (data: LoginForm): LoginFormErrors => {
+  const validateForm = (data: LoginFormData): LoginFormErrors => {
     const errors: LoginFormErrors = {};
 
     errors.email = validateEmail(data.email);
     errors.password = validatePassword(data.password);
-    
+
     return errors;
   };
 
   return (
     <Box
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
         maxWidth: 400,
         p: 4,
         mt: 8,
       }}
     >
-      <Typography variant="h4" sx={{ mb: 2 }}>Login</Typography>
-
+      <Typography variant="h4" sx={{ mb: 2 }}>
+        Login
+      </Typography>
       <TextField
         label="Email"
         name="email"
@@ -91,7 +99,7 @@ const LoginForm: React.FC = () => {
       </Button>
 
       <Typography variant="body2" color="text.secondary" align="center">
-        Don't have an account? {' '}
+        Don't have an account?{" "}
         <Button variant="text" color="primary" component={Link} to="/register">
           Register
         </Button>
