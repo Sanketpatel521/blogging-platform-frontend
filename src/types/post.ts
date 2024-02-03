@@ -1,14 +1,15 @@
 export interface Post {
-    postId: string;
-    title: string;
-    content: string;
-    author: {
-        userId: string,
-        name: string,
-    };
+  postId: string;
+  title: string;
+  content: string;
+  author: {
+    userId: string;
+    name: string;
+  };
+  createdAt: Date;
 }
 
-export interface CreatePost {
-    title: string;
-    content: string;
+export interface CreatePostData {
+  title: string;
+  content: string;
 }

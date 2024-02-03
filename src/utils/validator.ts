@@ -1,3 +1,5 @@
+import { EditorState } from "draft-js";
+
 export const validateName = (name: string): string | undefined => {
   if (!name) return "Name is required";
   if (name.length < 2) return "Name must be at least 2 characters long";
@@ -29,5 +31,17 @@ export const validatePhoneNumber = (
   phoneNumber: string,
 ): string | undefined => {
   if (/^[0-9]{11}$/.test(phoneNumber)) return "Phone number must be 10 digits";
+  return undefined;
+};
+
+export const validateTitel = (titel: string): string | undefined => {
+  if (!titel) return "Titel is required";
+  return undefined;
+};
+
+export const validateContent = (
+  editorState: EditorState,
+): string | undefined => {
+  if (!editorState.getCurrentContent().hasText()) return "Content is required";
   return undefined;
 };

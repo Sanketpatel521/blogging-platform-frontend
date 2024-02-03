@@ -34,7 +34,6 @@ export const useUserStore = create<UserStoreState>((set) => ({
   setUser: (user) => set({ user }),
 
   register: async (formData) => {
-    console.log(formData);
     try {
       const { token } = await registerUser(formData);
       await handleAuthSuccess(set, token);
@@ -84,7 +83,6 @@ export const useUserStore = create<UserStoreState>((set) => ({
 
       // Only update if there are changes
       if (Object.keys(updatedFields).length > 0) {
-        console.log(updatedFields);
         const updatedUserDetails = await updateUserProfile(
           updatedFields,
           localStorage.getItem("token") || "",

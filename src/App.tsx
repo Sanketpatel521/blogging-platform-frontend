@@ -18,7 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUserStore } from "./store/user/UserStore";
 import { fetchUserDetails } from "./api/user";
-import BlogEditor from "./components/Post/BlogEditor"
+import BlogEditor from "./components/Post/BlogEditor";
 
 const darkTheme = createTheme({
   palette: {
@@ -63,13 +63,18 @@ const App: React.FC = () => {
     navigate("/profile");
   };
 
+  const handleLogout = () => {
+    handleCloseMenu();
+    logout();
+  };
+
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <AppBar position="static">
         <Toolbar>
           <Typography
-            variant="h6"
+            variant="h5"
             component={Link}
             to="/"
             color="inherit"
@@ -77,9 +82,17 @@ const App: React.FC = () => {
           >
             Blogging Platform
           </Typography>
-          <Button color="inherit" component={Link} to="/post">
-            Create Post
-          </Button>
+          {user && (
+            <Button
+              color="inherit"
+              component={Link}
+              to="/post"
+              sx={{ marginLeft: 4 }}
+            >
+              Create Post
+            </Button>
+          )}
+
           <div style={{ marginLeft: "auto" }}>
             {user ? (
               <div>
@@ -90,8 +103,7 @@ const App: React.FC = () => {
                   anchorEl={anchorEl}
                   handleClose={handleCloseMenu}
                   handleProfile={handleProfile}
-                  handleLogout={logout}
-                  user={null}
+                  handleLogout={handleLogout}
                 />
               </div>
             ) : (
@@ -102,7 +114,7 @@ const App: React.FC = () => {
           </div>
         </Toolbar>
       </AppBar>
-      <Container component="main" maxWidth="xs" >
+      <Container component="main" maxWidth="xs">
         <Routes>
           <Route
             path="/register"
@@ -127,12 +139,9 @@ const App: React.FC = () => {
           />
         </Routes>
       </Container>
-      <Container component="main" sx={{ marginTop: 4}} >
-      <Routes>
-      <Route
-            path="/post"
-            element={<BlogEditor />}
-          />
+      <Container component="main" sx={{ marginTop: 4 }}>
+        <Routes>
+          <Route path="/post" element={<BlogEditor />} />
         </Routes>
       </Container>
       <ToastContainer />

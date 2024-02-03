@@ -6,7 +6,6 @@ interface UserMenuProps {
   handleClose: () => void;
   handleProfile: () => void;
   handleLogout: () => void;
-  user: { name: string } | null;
 }
 
 const UserMenu: React.FC<UserMenuProps> = ({
@@ -14,7 +13,6 @@ const UserMenu: React.FC<UserMenuProps> = ({
   handleClose,
   handleProfile,
   handleLogout,
-  user,
 }) => (
   <Menu
     anchorEl={anchorEl}

@@ -1,12 +1,32 @@
 import { create } from "zustand";
-import { CreatePost } from "../../types/post";
+import { CreatePostData, Post } from "../../types/post";
+import { toast } from "react-toastify";
+import { createPost } from "../../api/post";
+import { getErrorMessage } from "../../utils/error";
 
 interface PostStoreState {
-  posts: Array<{ id: string; title: string; content: string }>;
-  addPost: (post: CreatePost) => void;
+  posts: Array<Post>;
+  addPost: (post: CreatePostData) => Promise<boolean>;
 }
 
 export const usePostStore = create<PostStoreState>((set) => ({
   posts: [],
-  addPost: (post) => {},
+  addPost: async (post) => {
+    try {
+      const postData = await createPost(
+        post,
+        localStorage.getItem("token") || "",
+      );
+      set((state) => ({
+        posts: [...state.posts, postData],
+      }));
+      toast.success("Post created successfully!");
+      return true;
+    } catch (error: any) {
+      toast.error(
+        getErrorMessage(error, "Failed to create post. Please try again."),
+      );
+      return false;
+    }
+  },
 }));

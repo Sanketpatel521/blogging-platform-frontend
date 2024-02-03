@@ -6,7 +6,7 @@ import {
   validatePassword,
   validatePhoneNumber,
   validateOldPassword,
-} from "../../common/validator";
+} from "../../utils/validator";
 import {
   RegisterUserFormData,
   RegisterFormErrors,
@@ -32,7 +32,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
   const navigate = useNavigate();
   useEffect(() => {
     // If the user is not logged in, redirect to the login page to prevent unauthorized access to the profile editing functionality.
-    if (isUpdate && user) {
+    if (isUpdate && !user) {
       navigate("/login");
     }
     // If the user is registered, redirect to the home page page

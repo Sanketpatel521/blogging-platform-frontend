@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import { useUserStore } from "../../store/user/UserStore";
-import { validateEmail, validatePassword } from "../../common/validator";
+import { validateEmail, validatePassword } from "../../utils/validator";
 import { Link, useNavigate } from "react-router-dom";
 import { LoginFormData, LoginFormErrors } from "../../types/user";
 
