@@ -136,7 +136,7 @@ const GenericForm: React.FC<GenericFormProps> = ({
         flexDirection: "column",
         alignItems: "center",
         maxWidth: 400,
-        p: 4,
+        p: 2,
       }}
     >
       <Typography variant="h4" sx={{ mb: 2 }}>

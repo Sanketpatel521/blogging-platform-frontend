@@ -18,6 +18,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useUserStore } from "./store/user/UserStore";
 import { fetchUserDetails } from "./api/user";
+import BlogEditor from "./components/Post/BlogEditor"
 
 const darkTheme = createTheme({
   palette: {
@@ -76,6 +77,9 @@ const App: React.FC = () => {
           >
             Blogging Platform
           </Typography>
+          <Button color="inherit" component={Link} to="/post">
+            Create Post
+          </Button>
           <div style={{ marginLeft: "auto" }}>
             {user ? (
               <div>
@@ -91,16 +95,14 @@ const App: React.FC = () => {
                 />
               </div>
             ) : (
-              <>
-                <Button color="inherit" component={Link} to="/login">
-                  Login
-                </Button>
-              </>
+              <Button color="inherit" component={Link} to="/login">
+                Login
+              </Button>
             )}
           </div>
         </Toolbar>
       </AppBar>
-      <Container component="main" maxWidth="xs">
+      <Container component="main" maxWidth="xs" >
         <Routes>
           <Route
             path="/register"
@@ -112,7 +114,6 @@ const App: React.FC = () => {
               />
             }
           />
-
           <Route path="/login" element={<LoginForm />} />
           <Route
             path="/profile"
@@ -123,6 +124,14 @@ const App: React.FC = () => {
                 onSubmit={updateProfile}
               />
             }
+          />
+        </Routes>
+      </Container>
+      <Container component="main" sx={{ marginTop: 4}} >
+      <Routes>
+      <Route
+            path="/post"
+            element={<BlogEditor />}
           />
         </Routes>
       </Container>
