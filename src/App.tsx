@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
 import {
   Container,
@@ -12,11 +12,12 @@ import {
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginForm from "./components/Auth/LoginForm";
-import { useStore } from "./store/index";
 import UserMenu from "./components/User/UserMenu";
 import GenericForm from "./components/User/GenericForm";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useUserStore } from "./store/user/UserStore";
+import { fetchUserDetails } from "./api/user";
 
 const darkTheme = createTheme({
   palette: {
@@ -25,12 +26,28 @@ const darkTheme = createTheme({
 });
 
 const App: React.FC = () => {
-  const { userStore } = useStore();
-  const { user, register, updateProfile, logout } = userStore;
+  const { user, setUser, register, updateProfile, logout } = useUserStore();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token && !user) {
+      // Fetch user details using the token
+      fetchUserDetails(token)
+        .then((userDetails) => {
+          setUser(userDetails);
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 400) {
+            localStorage.removeItem("token");
+            navigate("/login");
+          }
+        });
+    }
+  }, [user, setUser, navigate]);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );
-  const navigate = useNavigate();
 
   const handleOpenMenu = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);

@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, MenuItem, IconButton, Avatar } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 
 interface UserMenuProps {
   anchorEl: HTMLButtonElement | null;

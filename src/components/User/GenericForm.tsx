@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { TextField, Button, Typography, Box } from "@mui/material";
 import {
   validateName,
@@ -13,6 +13,7 @@ import {
   UpdateUserFormData,
 } from "../../types/user";
 import { useUserStore } from "../../store/user/UserStore";
+import { useNavigate } from "react-router-dom";
 
 interface GenericFormProps {
   title: string;
@@ -28,6 +29,17 @@ const GenericForm: React.FC<GenericFormProps> = ({
   isUpdate = title === "Edit Profile",
 }) => {
   const { user } = useUserStore();
+  const navigate = useNavigate();
+  useEffect(() => {
+    // If the user is not logged in, redirect to the login page to prevent unauthorized access to the profile editing functionality.
+    if (isUpdate && user) {
+      navigate("/login");
+    }
+    // If the user is registered, redirect to the home page page
+    else if (!isUpdate && user) {
+      navigate("/");
+    }
+  }, [user, navigate, isUpdate]);
   let initialValue;
   if (isUpdate) {
     initialValue = {
