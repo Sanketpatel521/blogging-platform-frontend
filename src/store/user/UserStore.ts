@@ -6,6 +6,7 @@ import {
   User,
 } from "../../types/user";
 import {
+  deleteProfile,
   fetchUserDetails,
   loginUser,
   registerUser,
@@ -26,6 +27,7 @@ export interface UserStoreState {
   updateProfile: (
     formData: RegisterUserFormData | UpdateUserFormData,
   ) => Promise<void>;
+  deleteProfile: () => void;
 }
 
 export const useUserStore = create<UserStoreState>((set) => ({
@@ -94,6 +96,16 @@ export const useUserStore = create<UserStoreState>((set) => ({
       toast.error(
         getErrorMessage(error, "Profile update failed. Please try again."),
       );
+    }
+  },
+
+  deleteProfile: async () => {
+    try {
+      await deleteProfile(localStorage.getItem("token") || "");
+      toast.success("Profile deleted successful!");
+      useUserStore.getState().logout()
+    } catch (error: any) {
+      toast.error(getErrorMessage(error, "Profile deleted. Please try again."));
     }
   },
 }));

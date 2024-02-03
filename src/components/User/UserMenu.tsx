@@ -5,6 +5,7 @@ interface UserMenuProps {
   anchorEl: HTMLButtonElement | null;
   handleClose: () => void;
   handleProfile: () => void;
+  handleProfileUpdate: () => void;
   handleLogout: () => void;
 }
 
@@ -12,6 +13,7 @@ const UserMenu: React.FC<UserMenuProps> = ({
   anchorEl,
   handleClose,
   handleProfile,
+  handleProfileUpdate,
   handleLogout,
 }) => (
   <Menu
@@ -27,7 +29,8 @@ const UserMenu: React.FC<UserMenuProps> = ({
       horizontal: "right",
     }}
   >
-    <MenuItem onClick={handleProfile}>Update Profile</MenuItem>
+    <MenuItem onClick={handleProfile}>View Profile</MenuItem>
+    <MenuItem onClick={handleProfileUpdate}>Update Profile</MenuItem>
     <MenuItem onClick={handleLogout}>Logout</MenuItem>
   </Menu>
 );

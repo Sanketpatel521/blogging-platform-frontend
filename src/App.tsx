@@ -21,6 +21,7 @@ import { fetchUserDetails } from "./api/user";
 import BlogEditor from "./components/Post/BlogEditor";
 import { usePostStore } from "./store/post/PostStore";
 import PostsList from "./components/Post/PostsList";
+import UserProfile from "./components/User/UserProfile";
 
 const darkTheme = createTheme({
   palette: {
@@ -62,6 +63,11 @@ const App: React.FC = () => {
 
   const handleCloseMenu = () => {
     setAnchorEl(null);
+  };
+
+  const handleProfileUpdate = () => {
+    handleCloseMenu();
+    navigate("/profile/update");
   };
 
   const handleProfile = () => {
@@ -109,6 +115,7 @@ const App: React.FC = () => {
                   anchorEl={anchorEl}
                   handleClose={handleCloseMenu}
                   handleProfile={handleProfile}
+                  handleProfileUpdate={handleProfileUpdate}
                   handleLogout={handleLogout}
                 />
               </div>
@@ -133,8 +140,9 @@ const App: React.FC = () => {
             }
           />
           <Route path="/login" element={<LoginForm />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route
-            path="/profile"
+            path="/profile/update"
             element={
               <GenericForm
                 title="Edit Profile"

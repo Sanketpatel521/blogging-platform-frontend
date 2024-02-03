@@ -2,7 +2,6 @@ import React from "react";
 import Post from "./Post";
 import { usePostStore } from "../../store/post/PostStore";
 import { Typography, Box } from "@mui/material";
-import { auto } from "@popperjs/core";
 
 const PostsList: React.FC = () => {
   const { posts } = usePostStore();

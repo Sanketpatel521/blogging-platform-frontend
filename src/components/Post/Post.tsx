@@ -12,7 +12,7 @@ import { Editor } from "react-draft-wysiwyg";
 
 interface PostProps {
   title: string;
-  body: string; // Assuming body is in JSON format
+  body: string;
   author: string;
 }
 
