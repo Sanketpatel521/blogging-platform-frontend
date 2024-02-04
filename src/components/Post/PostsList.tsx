@@ -15,6 +15,7 @@ const PostsList: React.FC = () => {
     setLoading(true);
     try {
       await fetchPosts(page);
+      setError(null);
     } catch (error: any) {
       setError(error);
     } finally {
@@ -24,7 +25,7 @@ const PostsList: React.FC = () => {
 
   useEffect(() => {
     handleLoadMore();
-  }, [handleLoadMore, error]);
+  }, []);
 
   return (
     <Box>

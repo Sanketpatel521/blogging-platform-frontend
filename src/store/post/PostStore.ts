@@ -27,7 +27,6 @@ export const usePostStore = create<PostStoreState>((set) => ({
         localStorage.getItem("token") || "",
       );
       set((state) => ({ ...state, posts: [postData, ...state.posts] }));
-      console.log(usePostStore.getState().posts);
       toast.success("Post created successfully!");
       return true;
     } catch (error: any) {
@@ -40,7 +39,6 @@ export const usePostStore = create<PostStoreState>((set) => ({
   fetchPosts: async (page = 1, pageSize = 5) => {
     try {
       const postData = await fetchPosts(page, pageSize);
-      console.log(postData);
       set((state) => ({
         posts: [...state.posts, ...postData.posts],
         page: parseInt(postData.page) + 1,
