@@ -34,13 +34,13 @@ Before you begin, ensure you have the following installed on your machine:
 ## Running the Application
 **Start the application:**
    ```bash
-   npm run start
+   npm start
    ```
    - The frontend application will be available at http://localhost:3000
 ## Run Tests
 **Run all test cases:**
    ```bash
-   npm run test
+   npm test
    ```
 
 ## Important Design Decisions
