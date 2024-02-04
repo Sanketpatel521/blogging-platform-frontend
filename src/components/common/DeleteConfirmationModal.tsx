@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { Modal, Box, Typography, Button, IconButton } from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import React from "react";
+import { Modal, Box, Typography, Button } from "@mui/material";
 
 interface DeleteConfirmationModalProps {
   open: boolean;

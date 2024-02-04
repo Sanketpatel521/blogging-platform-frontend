@@ -54,7 +54,7 @@ const UserProfile: React.FC = () => {
     if (!user) {
       navigate("/login");
     }
-  }, [user]);
+  }, [user, navigate]);
 
   const handleDelete = async () => {
     await deleteProfile();
