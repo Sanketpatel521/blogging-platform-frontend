@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { EditorState, ContentState, convertToRaw, convertFromRaw } from "draft-js";
+import {
+  EditorState,
+  ContentState,
+  convertToRaw,
+  convertFromRaw,
+} from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
@@ -10,12 +15,13 @@ import { CreatePostData } from "../../types/post";
 import { usePostStore } from "../../store/post/PostStore";
 
 interface BlogEditorProps {
-  onSubmit: (postData: CreatePostData, postid?:string) => Promise<boolean> | void;
+  onSubmit: (
+    postData: CreatePostData,
+    postid?: string,
+  ) => Promise<boolean> | void;
 }
 
-const BlogEditor: React.FC<BlogEditorProps> = ({
-  onSubmit,
-}) => {
+const BlogEditor: React.FC<BlogEditorProps> = ({ onSubmit }) => {
   const { postId } = useParams();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
@@ -29,13 +35,15 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
 
   useEffect(() => {
     if (postId) {
-      const post = posts.find(post => post.postId === postId)
-      if (!post) {return navigate('/post')}
-      setTitle(post.title)
-      const contentState = convertFromRaw(JSON.parse(post.content))
+      const post = posts.find((post) => post.postId === postId);
+      if (!post) {
+        return navigate("/post");
+      }
+      setTitle(post.title);
+      const contentState = convertFromRaw(JSON.parse(post.content));
       setEditorState(EditorState.createWithContent(contentState));
     } else {
-      navigate('/post')
+      navigate("/post");
     }
   }, [postId]);
 
@@ -68,16 +76,15 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setErrors({ title: titelError, content: contentError });
 
     if (!errors.title && !errors.content) {
-      const postData = { title, content: JSON.stringify(contentRaw) }
-      if(postId) {
-        await onSubmit(postData, postId)
+      const postData = { title, content: JSON.stringify(contentRaw) };
+      if (postId) {
+        await onSubmit(postData, postId);
       } else {
         if (await onSubmit(postData)) {
           setTitle("");
           setEditorState(EditorState.createEmpty());
         }
       }
-      
     }
   };
 

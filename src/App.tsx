@@ -9,6 +9,7 @@ import {
   Button,
   IconButton,
   Avatar,
+  CircularProgress,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginForm from "./components/Auth/LoginForm";
@@ -31,8 +32,9 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   const { user, setUser, register, updateProfile, logout } = useUserStore();
-  const { createPost, fetchPosts, updatePost } = usePostStore();
+  const { createPost, updatePost } = usePostStore();
   const navigate = useNavigate();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -50,9 +52,6 @@ const App: React.FC = () => {
         });
     }
   }, [user, setUser, navigate]);
-  useEffect(() => {
-    fetchPosts();
-  }, []);
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null,
   );

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CreatePostData, Post } from "../types/post";
+import { CreatePostData, GetPostResponse, Post } from "../types/post";
 
 const BASE_URL = `${process.env.REACT_APP_BASE_URL}/posts`;
 
@@ -15,8 +15,13 @@ export const createPost = async (
   return response.data;
 };
 
-export const fetchPosts = async (): Promise<Post[]> => {
-  const response = await axios.get<Post[]>(`${BASE_URL}/latest`);
+export const fetchPosts = async (
+  page: number,
+  pageSize: number,
+): Promise<GetPostResponse> => {
+  const response = await axios.get<GetPostResponse>(
+    `${BASE_URL}/latest?page=${page}&pageSize=${pageSize}`,
+  );
   return response.data;
 };
 
@@ -42,4 +47,4 @@ export const updatePost = async (
     },
   });
   return response.data;
-}
+};

@@ -94,11 +94,7 @@ const Post: React.FC<PostProps> = ({ postId, title, body, author }) => {
         </Typography>
         {isPostOwner && (
           <div>
-            <IconButton
-              size="small"
-              color="primary"
-              onClick={handleEdit}
-            >
+            <IconButton size="small" color="primary" onClick={handleEdit}>
               <EditRoundedIcon />
             </IconButton>
             <IconButton

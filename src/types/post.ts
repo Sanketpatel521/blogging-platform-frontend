@@ -9,6 +9,12 @@ export interface Post {
   createdAt: Date;
 }
 
+export interface GetPostResponse {
+  posts: Post[];
+  page: string;
+  hasMore: boolean;
+}
+
 export interface CreatePostData {
   title: string;
   content: string;
