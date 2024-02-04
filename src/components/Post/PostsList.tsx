@@ -9,12 +9,13 @@ const PostsList: React.FC = () => {
   return (
     <Box>
       {posts.length > 0 ? (
-        posts.map((post, index) => (
+        posts.map((post) => (
           <Post
-            key={index}
+            key={post.postId}
             title={post.title}
             body={post.content}
-            author={post.author.name}
+            author={post.author}
+            postId={post.postId}
           />
         ))
       ) : (

@@ -50,10 +50,10 @@ export const updateUserProfile = async (
   return response.data;
 };
 
-export const deleteProfile = async (token:string): Promise<void> => {
+export const deleteProfile = async (token: string): Promise<void> => {
   await axios.delete<User>(`${BASE_URL}/delete`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   });
-}
+};

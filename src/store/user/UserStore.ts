@@ -62,6 +62,7 @@ export const useUserStore = create<UserStoreState>((set) => ({
 
     // Reset user state
     set({ user: null });
+    toast.success("logged out successfully!");
   },
 
   updateProfile: async (formData) => {
@@ -91,7 +92,7 @@ export const useUserStore = create<UserStoreState>((set) => ({
         );
         set({ user: updatedUserDetails });
       }
-      toast.success("Profile update successful!");
+      toast.success("Profile updated successfully!");
     } catch (error) {
       toast.error(
         getErrorMessage(error, "Profile update failed. Please try again."),
@@ -102,10 +103,13 @@ export const useUserStore = create<UserStoreState>((set) => ({
   deleteProfile: async () => {
     try {
       await deleteProfile(localStorage.getItem("token") || "");
-      toast.success("Profile deleted successful!");
-      useUserStore.getState().logout()
+      toast.success("Profile deleted successfully!");
+      // logout
+      useUserStore.getState().logout();
     } catch (error: any) {
-      toast.error(getErrorMessage(error, "Profile deleted. Please try again."));
+      toast.error(
+        getErrorMessage(error, "Profile delete failed. Please try again."),
+      );
     }
   },
 }));
@@ -116,7 +120,6 @@ const handleAuthSuccess = async (
 ) => {
   // Store the token in local storage
   localStorage.setItem("token", token);
-
   // Fetch user details using the token
   const userDetails = await fetchUserDetails(token);
 

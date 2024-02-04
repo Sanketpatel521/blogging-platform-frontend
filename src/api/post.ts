@@ -19,3 +19,14 @@ export const fetchPosts = async (): Promise<Post[]> => {
   const response = await axios.get<Post[]>(`${BASE_URL}/latest`);
   return response.data;
 };
+
+export const deletePost = async (
+  postId: string,
+  token: string,
+): Promise<void> => {
+  await axios.delete(`${BASE_URL}/${postId}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+};
