@@ -1,46 +1,80 @@
-# Getting Started with Create React App
+# Blogging Platform Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+The Blogging Platform Frontend is a React application that serves as the user interface for the blogging platform. It interacts with the Blogging Platform Backend to provide a seamless experience for users.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+Before you begin, ensure you have the following installed on your machine:
+- Node.js
+- npm
 
-### `npm start`
+## Setup
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Clone the repository:**
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+   ```bash
+   git clone https://github.com/Sanketpatel521/blogging-platform-frontend.git
+   ```
+2. **Navigate to the project directory:**
 
-### `npm test`
+   ```bash
+   cd blogging-platform-frontend
+   ```
+3. **Install dependencies:**
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+   ```bash
+   npm i
+   ```
+4. **Create a .env file in the project root:**
 
-### `npm run build`
+   ```bash
+    REACT_APP_API_BASE_URL=http://localhost:4000 (URL of the Blogging Platform Backend)
+   ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Running the Application
+**Start the application:**
+   ```bash
+   npm run start
+   ```
+   - The frontend application will be available at http://localhost:3000
+## Run Tests
+**Run all test cases:**
+   ```bash
+   npm run test
+   ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Important Design Decisions
+1. **State Management Libraries:**
+This application uses Zustand for state management. Zustand is a simple and efficient state management library for React applications.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+2. **Store Architecture:**
+  The application is designed with two distinct stores, each responsible for managing specific aspects of the global state.
 
-### `npm run eject`
+    1. useUserStore
+        This store manages user-related state, including authentication, user profiles, and error handling.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+        - Features:
+          - User Authentication:
+      
+            - register: Register a new user and receive a JWT token.
+            - login: Log in and receive a JWT token.
+            - logout: Log out and clear the user authentication state.
+          - User Profile:
+            - fetchUserDetails: Fetch the user's details.
+            - updateProfile: Update user details.
+          - Error Handling:
+              Handles errors related to user actions and provides error messages.
+            
+    2. usePostStore
+        This store manages state-related to posts, including post creation, retrieval, updating, and deletion.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+      - Features:
+        - Post Actions:
+            - createPost: Create a new post.
+            - fetchPosts: Fetch the latest posts with pagination support.
+            - updatePost: Update an existing post.
+            - deletePost: Delete a post.
+        - Pagination:
+              Manages state variables for pagination, such as the current page, page size, and whether there are more posts to fetch (hasMore).
+        - Error Handling:
+              Handles errors related to post actions and provides error messages.
