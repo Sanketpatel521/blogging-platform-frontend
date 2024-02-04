@@ -1,10 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  EditorState,
-  ContentState,
-  convertToRaw,
-  convertFromRaw,
-} from "draft-js";
+import { EditorState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
@@ -45,7 +40,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({ onSubmit }) => {
     } else {
       navigate("/post");
     }
-  }, [postId]);
+  }, [postId, navigate, posts]);
 
   useEffect(() => {
     // If the user is not logged in, redirect to the login page to prevent unauthorized access to the create post functionality.

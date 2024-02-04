@@ -6,14 +6,17 @@ import { Typography, Box, CircularProgress, Button } from "@mui/material";
 const PostsList: React.FC = () => {
   const { posts, hasMore, page, fetchPosts } = usePostStore();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleLoadMore = async () => {
-    if (loading) {
+    if (loading || error) {
       return;
     }
     setLoading(true);
     try {
       await fetchPosts(page);
+    } catch (error: any) {
+      setError(error);
     } finally {
       setLoading(false);
     }
@@ -21,7 +24,7 @@ const PostsList: React.FC = () => {
 
   useEffect(() => {
     handleLoadMore();
-  }, [posts]);
+  }, [handleLoadMore, error]);
 
   return (
     <Box>

@@ -9,7 +9,6 @@ import {
   Button,
   IconButton,
   Avatar,
-  CircularProgress,
 } from "@mui/material";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import LoginForm from "./components/Auth/LoginForm";
