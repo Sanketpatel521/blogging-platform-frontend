@@ -15,6 +15,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteForeverRoundedIcon from "@mui/icons-material/DeleteForeverRounded";
 import DeleteConfirmationModal from "../common/DeleteConfirmationModal";
 import { usePostStore } from "../../store/post/PostStore";
+import { useNavigate } from "react-router-dom";
 
 interface PostProps {
   postId: string;
@@ -50,6 +51,10 @@ const Post: React.FC<PostProps> = ({ postId, title, body, author }) => {
     await deletePost(postId);
     setDeleteModalOpen(false);
   };
+  const navigate = useNavigate();
+  const handleEdit = () => {
+    navigate(`/edit-post/${postId}`);
+  };
 
   return (
     <Card sx={{ margin: 2 }}>
@@ -58,7 +63,7 @@ const Post: React.FC<PostProps> = ({ postId, title, body, author }) => {
           {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          {expanded ? (
+          {expanded || contentState.getPlainText().length <= 200 ? (
             <Editor
               readOnly
               toolbarHidden={true}
@@ -92,7 +97,7 @@ const Post: React.FC<PostProps> = ({ postId, title, body, author }) => {
             <IconButton
               size="small"
               color="primary"
-              onClick={() => console.log("Edit post")}
+              onClick={handleEdit}
             >
               <EditRoundedIcon />
             </IconButton>

@@ -31,7 +31,7 @@ const darkTheme = createTheme({
 
 const App: React.FC = () => {
   const { user, setUser, register, updateProfile, logout } = useUserStore();
-  const { createPost, fetchPosts } = usePostStore();
+  const { createPost, fetchPosts, updatePost } = usePostStore();
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -157,6 +157,10 @@ const App: React.FC = () => {
         <Routes>
           <Route path="/" element={<PostsList />} />
           <Route path="/post" element={<BlogEditor onSubmit={createPost} />} />
+          <Route
+            path="/edit-post/:postId"
+            element={<BlogEditor onSubmit={updatePost} />}
+          />
         </Routes>
       </Container>
       <ToastContainer />

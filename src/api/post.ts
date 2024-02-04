@@ -30,3 +30,16 @@ export const deletePost = async (
     },
   });
 };
+
+export const updatePost = async (
+  postId: string | undefined,
+  formData: Partial<CreatePostData>,
+  token: string,
+): Promise<Post> => {
+  const response = await axios.put<Post>(`${BASE_URL}/${postId}`, formData, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  return response.data;
+}

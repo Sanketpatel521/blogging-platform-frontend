@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { EditorState, ContentState, convertToRaw } from "draft-js";
+import { EditorState, ContentState, convertToRaw, convertFromRaw } from "draft-js";
 import { Editor } from "react-draft-wysiwyg";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
 import { validateContent, validateTitel } from "../../utils/validator";
 import { useUserStore } from "../../store/user/UserStore";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { CreatePostData } from "../../types/post";
+import { usePostStore } from "../../store/post/PostStore";
 
 interface BlogEditorProps {
-  initialContent?: string;
-  onSubmit: (postData: CreatePostData) => Promise<boolean>;
+  onSubmit: (postData: CreatePostData, postid?:string) => Promise<boolean> | void;
 }
 
 const BlogEditor: React.FC<BlogEditorProps> = ({
-  initialContent,
   onSubmit,
 }) => {
+  const { postId } = useParams();
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [title, setTitle] = useState("");
   const [errors, setErrors] = useState<{
@@ -24,16 +24,20 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     content: undefined | string;
   }>({ title: undefined, content: undefined });
   const { user } = useUserStore();
+  const { posts } = usePostStore();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (initialContent) {
-      const contentState = ContentState.createFromBlockArray(
-        JSON.parse(initialContent),
-      );
+    if (postId) {
+      const post = posts.find(post => post.postId === postId)
+      if (!post) {return navigate('/post')}
+      setTitle(post.title)
+      const contentState = convertFromRaw(JSON.parse(post.content))
       setEditorState(EditorState.createWithContent(contentState));
+    } else {
+      navigate('/post')
     }
-  }, [initialContent]);
+  }, [postId]);
 
   useEffect(() => {
     // If the user is not logged in, redirect to the login page to prevent unauthorized access to the create post functionality.
@@ -64,10 +68,16 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
     setErrors({ title: titelError, content: contentError });
 
     if (!errors.title && !errors.content) {
-      if (await onSubmit({ title, content: JSON.stringify(contentRaw) })) {
-        setTitle("");
-        setEditorState(EditorState.createEmpty());
+      const postData = { title, content: JSON.stringify(contentRaw) }
+      if(postId) {
+        await onSubmit(postData, postId)
+      } else {
+        if (await onSubmit(postData)) {
+          setTitle("");
+          setEditorState(EditorState.createEmpty());
+        }
       }
+      
     }
   };
 
@@ -128,7 +138,7 @@ const BlogEditor: React.FC<BlogEditorProps> = ({
         variant="contained"
         sx={{ mt: 3 }}
       >
-        {initialContent ? "Update Post" : "Create Post"}
+        {postId ? "Update Post" : "Create Post"}
       </Button>
     </Box>
   );
