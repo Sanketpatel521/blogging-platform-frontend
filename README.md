@@ -50,7 +50,7 @@ This application uses Zustand for state management. Zustand is a simple and effi
 2. **Store Architecture:**
   The application is designed with two distinct stores, each responsible for managing specific aspects of the global state.
 
-    1. useUserStore
+   1. useUserStore
         This store manages user-related state, including authentication, user profiles, and error handling.
 
         - Features:
@@ -68,13 +68,15 @@ This application uses Zustand for state management. Zustand is a simple and effi
     2. usePostStore
         This store manages state-related to posts, including post creation, retrieval, updating, and deletion.
 
-      - Features:
-        - Post Actions:
-            - createPost: Create a new post.
-            - fetchPosts: Fetch the latest posts with pagination support.
-            - updatePost: Update an existing post.
-            - deletePost: Delete a post.
-        - Pagination:
-              Manages state variables for pagination, such as the current page, page size, and whether there are more posts to fetch (hasMore).
-        - Error Handling:
-              Handles errors related to post actions and provides error messages.
+         - Features:
+           - Post Actions:
+               - createPost: Create a new post.
+               - fetchPosts: Fetch the latest posts with pagination support.
+               - updatePost: Update an existing post.
+               - deletePost: Delete a post.
+           - Pagination:
+                 Manages state variables for pagination, such as the current page, page size, and whether there are more posts to fetch (hasMore).
+           - Error Handling:
+                 Handles errors related to post actions and provides error messages.
+      3. Blog Editor with Draft.js
+The Blogging Platform's frontend incorporates Draft.js, a powerful and extensible JavaScript library for building rich text editors. Draft.js is maintained by Facebook and provides a flexible framework for creating customizable and feature-rich text editing experiences.
